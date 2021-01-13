@@ -9,6 +9,9 @@ app.use(bodyParser.json());
 const listsRoute = require('./routes/lists');
 app.use('/lists', listsRoute);
 
+const tasksRoute = require('./routes/tasks');
+app.use('/tasks', tasksRoute);
+
 app.get('/', (req, res) => {
     res.send('home');
 })
