@@ -33,19 +33,6 @@ router.post('/', async (req,res) => {
     }
 });
 
-router.patch('/:id', async (req, res) => {
-    try {
-        const list = await List.updateOne(
-            {_id: req.params.id},
-            {$set: {name: req.body.name,
-                description: req.body.description}
-            });
-        res.json(list);
-    } catch (error) {
-        res.json({message: error});
-    }
-});
-
 router.delete('/:id', async (req, res) => {
     try {
         const list = await List.remove({_id: req.params.id});
