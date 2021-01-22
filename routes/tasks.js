@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try{
-        const tasks = await Task.find({list: req.body.list});
+        const tasks = await Task.find({list: req.params.id});
         res.json(tasks); 
     } catch (error) {
         res.json({message: error});
