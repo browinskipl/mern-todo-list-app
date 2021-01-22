@@ -5,13 +5,26 @@ import { Link } from 'react-router-dom';
 function ListPosition() {
   const [lists, setLists] = useContext(ListsContext); 
   
-  const removeList = (id) => {
-    fetch('http://localhost:5000/lists/' + id, {
+  const removeList = async (id) => {
+    await fetch('http://localhost:5000/lists/' + id, {
     method: 'DELETE',
     headers: {
     'Content-Type': 'application/json',
     }
     }).then(setLists(lists.filter(item => item._id !== id)));
+  }
+
+  const removeTasks = async (id) => {
+    await fetch('http://localhost:5000/tasks/all/' + id, {
+    method: 'DELETE',
+    headers: {
+    'Content-Type': 'application/json',
+    }});
+  }
+
+  const handleRemove = async (id) => {
+    await removeList(id);
+    await removeTasks(id);
   }
 
   return (
@@ -25,7 +38,7 @@ function ListPosition() {
                     <button type="button" className="btn btn-info">Open list</button>
                   </Link>
                 </td>
-                <td><button onClick={() => removeList(item._id)} type="button" className="btn btn-danger">Remove list</button></td>
+                <td><button onClick={() => handleRemove(item._id)} type="button" className="btn btn-danger">Remove list</button></td>
             </tr>
         )}
     </tbody>

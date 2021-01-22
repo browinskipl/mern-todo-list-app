@@ -8,7 +8,7 @@ const [task, setTask] = useState("");
 const listID = window.location.pathname.split('/').slice(2)[0];
 
 const saveTask = async (task) => {
-    await fetch('http://localhost:5000/tasks', {
+    return await fetch('http://localhost:5000/tasks', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -16,14 +16,14 @@ const saveTask = async (task) => {
     body: JSON.stringify({
     task: task,
     list: listID,
-    }),
-    });
+    })
+    }).then((response) => response.json());
 }
 
 const handleSubmit = async (e) => {
     e.preventDefault();
-    await saveTask(task);
-    setTasks(prevTasks => [...prevTasks, {task: task}]);
+    const newTask = await saveTask(task);
+    setTasks(tasks => [...tasks, newTask]);
 }
 
 return (

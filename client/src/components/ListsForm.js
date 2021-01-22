@@ -8,7 +8,7 @@ const [listName, setListName] = useState("");
 const [listDescription, setListDescription] = useState("");
 
 const saveList = async (listName, listDescription) => {
-    await fetch('http://localhost:5000/lists', {
+    return await fetch('http://localhost:5000/lists', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -16,14 +16,15 @@ const saveList = async (listName, listDescription) => {
     body: JSON.stringify({
     name: listName,
     description: listDescription
-    }),
-    });
+    }) 
+    }).then((response) => response.json())
 }
 
 const handleSubmit = async (e) => {
     e.preventDefault();
-    await saveList(listName, listDescription);
-    setLists(prevLists => [...prevLists, {name: listName, description: listDescription}]);
+    const newList = await saveList(listName, listDescription);
+    
+    await setLists(lists => [...lists, newList]);
 }
 
 return (
@@ -35,7 +36,7 @@ return (
         </div>
         <div className="form-group">
             <label htmlFor="list-description">List description</label>
-            <input type="text" className="form-control" id="list-description" onChange={e => setListDescription(e.target.value)} value={listDescription} placeholder="Enter list description" required />
+            <input type="text" className="form-control" id="list-description" onChange={e => setListDescription(e.target.value)} value={listDescription} placeholder="Enter description" required />
         </div>
         <button type="submit" className="btn btn-success">Save</button>
         </form>  
